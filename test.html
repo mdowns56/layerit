@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css'/>
+		<link rel='stylesheet' type='text/css' href='./jquery.layerit.css'/>
+		<style type='text/css'>
+			body{
+				background-color:#4F4F4F;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+		
+		
+		<script src='http://code.jquery.com/jquery-1.9.1.js'></script>
+		<script src='http://code.jquery.com/ui/1.10.3/jquery-ui.js'></script>
+		<script src='./src/jquery.layerit.min.js'></script>
+		<script>
+			var layer = null;
+			$(function(e){
+				layer = $('#container').layerIt();
+			});
+		</script>
+	</body>
+</html>
