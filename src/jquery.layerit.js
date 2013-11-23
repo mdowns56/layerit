@@ -1,17 +1,38 @@
+/*
+ * 	jQuery LayerIt UI Widget 1.0
+ * 	Copyright 2013 Matt Downs
+ * 
+ * 	https://github.com/mdowns56/layerit
+ * 
+ * 	Depends:
+ * 		jQuery 1.4.2
+ * 		jQuery UI 1.8 widget factory
+ * 
+ *  Licensed under MIT license.:
+ * 		http://www.opensource.org/licenses/mit-license.php
+ */
+
 (function($){
 
 	$.widget( "mdowns.layerIt", {
 		options: {
-			layers: []
+			layers: [],
+			zIndex: 0
 		},
 		_create: function() {
+			var o = this.options;
+			
+			//add class and set background color
 			this.element.addClass( "layerIt" );
-			this.element.css({'background-color':this.options.bgColor});
-			for(var i=0;i<this.options.layers.length; i++) {
-				this._createLayer(this.options.layers[i], i);
+			this.element.css({'background-color':o.bgColor});
+			
+			//create the layers
+			for(var i=0;i<o.layers.length; i++) {
+				this._createLayer(o.layers[i], o.zIndex + i);
 			}
 		},
 		_setOption: function( key, value ) {
+			//if the color is set, set the element background
 			if('bgColor' === key) {
 				this.element.css('background-color',value);
 			}
@@ -41,7 +62,7 @@
 		},
 		//add a layer
 		add: function(layer){
-			this._addLayer(layer.name);
+			this._addLayer(layer);
 		},
 		//update a layer
 		update: function(name, layerUpdate){
@@ -105,18 +126,21 @@
 			this.element.append(img);
 			this._drawLayer(layer.name);
 		},
+		//hide a layer
 		_hideLayer: function(name) {
 			this._getLayerElement(name).hide();
 		},
+		//show a layer
 		_showLayer: function(name) {
 			this._getLayerElement(name).show();
 		},
+		//get the element corresponding to the layer
 		_getLayerElement: function(name){
 			return $("img#layer_"+name);
 		},
 		//add a layer
 		_addLayer: function(layer) {
-			var index = this._getLayerIndex(name);
+			var index = this._getLayerIndex(layer.name);
 			
 			//check the index
 			if(index >= 0){
@@ -148,6 +172,7 @@
 			//remove the DOM element
 			this._getLayerElement(name).remove();
 		},
+		//move a layer to a new z-index
 		_moveLayer: function(name, newIndex){
 			var index = this._getLayerIndex(name);
 			
@@ -174,13 +199,18 @@
 			var layer = this.options.layers[index];
 			
 			//set the src and css for the image
-			this._getLayerElement(name).attr('src',layer.image.src).css(layer.image.css);
+			var el = this._getLayerElement(name).attr('src',layer.image.src);
+			
+			if(layer.image.css) {
+				el.css(layer.image.css);
+			}
 		},
+		//redraw all the layers
 		_redrawLayers: function(){
 			var layers = this.options.layers;
 			for(var i=0; i< layers.length; i++) {
 				var layer = layers[i];
-				var css = {zIndex : i};
+				var css = {zIndex : this.options.zIndex + i};
 				$.extend(css,layer.image.css);
 				this._getLayerElement(layer.name).attr('src',layer.image.src).css(css);
 			}

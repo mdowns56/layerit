@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<link rel='stylesheet' type='text/css' href='http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css'/>
-		<link rel='stylesheet' type='text/css' href='./jquery.layerit.css'/>
+		<link rel='stylesheet' type='text/css' href='../css/jquery.layerit.css'/>
 		<style type='text/css'>
 			body{
 				background-color:#4F4F4F;
@@ -15,11 +15,17 @@
 		
 		<script src='http://code.jquery.com/jquery-1.9.1.js'></script>
 		<script src='http://code.jquery.com/ui/1.10.3/jquery-ui.js'></script>
-		<script src='./src/jquery.layerit.min.js'></script>
+		<script src='../src/jquery.layerit.js'></script>
 		<script>
 			var layer = null;
 			$(function(e){
-				layer = $('#container').layerIt();
+				var l = [
+					 {name:'couch', image : { src : '../img/couch.png' }}
+					,{name:'table', image : { src : '../img/table.png', css : {top : 170, left :  45 }}}
+					,{name:'ball' , image : { src : '../img/ball.png' , css : {top : 130, left : 130 }}}
+				];
+				
+				layer = $('#container').layerIt({layers:l, bgColor: '#EFEFEF'});
 			});
 		</script>
 	</body>
